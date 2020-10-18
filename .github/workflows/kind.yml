@@ -6,11 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: engineerd/setup-kind@v0.4.0
-      with:
-          config: "kind.conf"
+    - name: asdf_install
+      uses: asdf-vm/actions/install@v1
     - name: Testing
       run: |
+        kind create cluster --config kind.conf
         kubectl cluster-info
         kubectl get pods -n kube-system
         echo "current-context:" $(kubectl config current-context)

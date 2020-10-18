@@ -15,7 +15,4 @@ kubectl wait --namespace ingress-nginx \
 # Prow
 kubectl apply -f prow-starter-s3.yaml
 
-# Smee
-kubectl apply -f smee.yaml
-
 # https://prow.127.0.0.1.nip.io/
