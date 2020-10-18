@@ -1379,3 +1379,37 @@ spec:
     protocol: TCP
   selector:
     app: minio
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smee
+  namespace: prow
+  labels:
+    name: smee
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      name: smee
+  template:
+    metadata:
+      labels:
+        name: smee
+    spec:
+      containers:
+      - image: deltaprojects/smee-client
+        name: smee
+        resources:
+          requests:
+            cpu: "20m"
+            memory: "55M"
+        args:
+        - --url= <<< SMEE URL >>>
+        - --target=http://hook.prow.svc.cluster.local:8888/hook
+        - --path=/hook
+      restartPolicy: Always
