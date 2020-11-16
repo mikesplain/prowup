@@ -15,3 +15,4 @@ jobs:
         kubectl get pods -n kube-system
         kubectl wait --for=condition=Ready pods --all --all-namespaces --timeout=300s
         kubectl apply -f prow-starter-s3.template.yaml
+        kubectl wait --for=condition=Ready pods --all --all-namespaces --timeout=300s
