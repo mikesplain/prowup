@@ -13,5 +13,5 @@ jobs:
         kind create cluster --config kind.conf
         kubectl cluster-info
         kubectl get pods -n kube-system
-        echo "current-context:" $(kubectl config current-context)
-        echo "environment-kubeconfig:" ${KUBECONFIG}
+        kubectl wait --for=condition=Ready pods --all --all-namespaces --timeout=300s
+        kubectl apply -f prow-starter-s3.template.yaml
