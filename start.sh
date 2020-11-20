@@ -1,18 +1,28 @@
 #!/bin/bash
 
+echo ""
+echo "Starting up kind cluster"
+
 kind create cluster --config kind.conf
-# Wait for cluster
+
+echo ""
+echo "Wait for cluster to startup"
 kubectl wait --for=condition=Ready pods -n kube-system --all --timeout=5m
 
-# nginx ingress
+echo ""
+echo "Setting up nginx ingress"
 kubectl apply -f ingress.yaml
 
 kubectl wait --namespace ingress-nginx \
   --for=condition=ready pod \
   --selector=app.kubernetes.io/component=controller \
-  --timeout=2m
+  --timeout=5m
 
-# Prow
+echo ""
+echo "Starting up Prow"
 kubectl apply -f prow-starter-s3.yaml
 
-# https://prow.127.0.0.1.nip.io/
+echo ""
+echo Script complete!  Your Prow setup should be online in a few minutes.
+echo ""
+echo To view prow, goto this address once Deck has started: https://prow.127.0.0.1.nip.io/
